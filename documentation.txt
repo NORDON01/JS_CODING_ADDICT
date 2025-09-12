@@ -1029,3 +1029,91 @@ document.body.append(smallHeading);
 
 document.body.replaceChild(smallHeading, bodyDiv); 
 log(smallHeading);
+
+*******************
+PREPEND, INNER TEXT
+*******************
+<body> 
+   <h1>FIRST HEADING</h1>
+</body>
+
+const heading = document.createElement('h2');
+heading.innerText = 'I am a dynamic heading';
+document.body.prepend(heading);     //prepend (before) != append (after)
+
+***********************
+REMOVE(), REMOVECHILD()
+***********************
+   <h1>Hello world</h1>
+   <div id="result">
+    <h1>second heading</h1>
+   </div>
+
+const result = document.querySelector('#result');
+//result.remove();
+const heading = result.querySelector('h1');
+log (heading); 
+heading.remove();   
+// OU
+//result.removeChild(heading);
+
+************************
+INNER HTML, TEXT CONTENT
+************************
+  <ul id="first">
+    <li class="item">list item</li>
+    <li>list item</li>
+  </ul>
+  <div id="second">
+    I have some text content
+  </div>
+
+const list = document.getElementById('first');
+const div = document.getElementById('second');
+const item = document.querySelector('.item');
+
+//log(div.textContent);
+//log(list.innerHTML);        //To get entire HTML of an element
+//log(list.textContent)       //Just the text
+
+//Recopier du HTML dans un nouvel élément créé dynamiquement:
+let var1 = 'bla bla'
+const ul = document.createElement('ul');
+ul.innerHTML = `<li class="item">list item</li>
+    <li>list item</li><li>${var1}</li>`;
+log(ul);
+document.body.append(ul);
+
+******************************
+CHANGE CSS WITH STYLE PROPERTY
+******************************
+<style>
+      .title{
+        font-size: 3rem;
+        background: blue;
+        color: white;
+        text-transform: capitalize;
+        width: 90%;
+        text-align: center;
+      }
+</style>
+    .../..
+<div class="random">
+    I am just some random div looking for CSS
+</div>
+
+const random = document.querySelector('.random');
+log(random);
+
+/* random.style.background = 'blue';
+random.style.color = 'white';
+random.style.fontSize = '3rem';
+random.style.textTransform = 'capitalize';
+random.style.width = '90%';
+random.style.textAlign = 'center'; */
+
+//Plus rapide:
+random.classList.add('title');
+
+/*************************** E V E N T S ***************************/
+ 
