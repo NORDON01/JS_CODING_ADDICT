@@ -2,41 +2,24 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-p {
-  background-color: aqua;
-}
-
-ul{
-  list-style:inside;
-  width:90%;
-  margin: 5rem calc(50% - 18.5px);
-}
-
-li{
   font-size: 2rem;
 }
 
-ul{
-  background: blue;
-  color: white;
-  padding: 2rem 2rem;
-  width:15rem;
+body{
+  width: 90%;
   margin:5rem auto;
 }
 
-h1, .second{
-  width:60%;
+.btn{
+  width: 40%;
   margin:2rem auto;
-  text-align: center;
+  margin-left: 30%;
 }
 
-#link{
-  font-size: 2rem;
-  background: blue;
-  color: white;
+.heading{
+  cursor: pointer;
 }
+
 
 
 

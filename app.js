@@ -1,15 +1,20 @@
 const log = console.log;    //global scope
 
-const random = document.querySelector('.random');
-log(random);
+const john = {
+  fname: 'john',
+  lname: 'anderson',
+  fullName: function (){
+    log(this);
+    log(`My full name is ${this.fname} ${this.lname}`);
+  },
+}
 
-/* random.style.background = 'blue';
-random.style.color = 'white';
-random.style.fontSize = '3rem';
-random.style.textTransform = 'capitalize';
-random.style.width = '90%';
-random.style.textAlign = 'center'; */
+john.fullName();
 
-//Plus rapide:
-random.classList.add('title');
-
+const bob = {
+  fname: 'bob',
+  lname: 'sanders',
+  fullName: function (){
+    log(`My full name is Bob Sanders`);
+  },
+}

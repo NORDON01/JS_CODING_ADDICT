@@ -692,12 +692,12 @@ Math.random()   //De 0 à 0.9999999
 DATE OBJECT
 ***********
   1 - const date = new Date();  //Possibilité d'utiliser une autre date
+  
   2 - const moiss = ['Janvier', 'Février', 'Mars', 'Avril',
                       'Mai','Juin', 'Juillet', 'Août',
                       'Septembre',Octobre', 'Novembre', 'Décembre'];
       const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi',
                     'Jeudi', 'Vendredi', 'Samedi',]
-
   3 - 
     let indexm = date.getMonth();
       let mois = moiss[indexm]
@@ -1116,4 +1116,530 @@ random.style.textAlign = 'center'; */
 random.classList.add('title');
 
 /*************************** E V E N T S ***************************/
+
+***********
+CLICK EVENT 
+***********
+<style>
+     .red{
+      background: red;
+      color: white;
+      text-transform: uppercase;
+      font-size: 2rem;
+     }
+
+     .blue{
+      height: 4rem;
+      width:20rem;
+      font-size: 2rem;
+      padding-top: 12px;
+      background: blue;
+      color: white;
+      text-align: center;
+     }
+
+     .btn{
+      background: red;
+      color: white;
+      font-size: 1.2;
+      border: none;
+      cursor: pointer;
+     }
+    </style>
+
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+}
+
+ p, div{
+  width: 12rem;
+  background: aqua;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+let btn = document.querySelector('.btn');   //1 - Select an element
+let heading = document.querySelector('h2');
+btn.addEventListener('click', function(){   //2 - Which type of event
+     heading.classList.add('red');          //Pas de point '.red'!!!
+     log(heading.classList);                //3 - Which callback to be executed
+})
+
+******************
+FUNCTION REFERENCE
+******************
+let btn = document.querySelector('.btn');   //1 - Select an element
+let heading = document.querySelector('h2');
+
+let switchClasse = function(){
+ if(heading.classList.contains('red')){
+    heading.classList.remove('red');
+    heading.classList.add('blue');
+ } else {
+    heading.classList.remove('blue');
+    heading.classList.add('red');    
+ }
+}
+
+btn.addEventListener('click', switchClasse);
+
+************
+MOUSE EVENTS
+************
+mousedown, mouseup, mouseenter, mouseleave
+
+let heading = document.querySelector('h2');
+let btn = document.querySelector('.btn');
+
+btn.addEventListener('click', function(){
+    log('You have clicked me')
+})
+
+btn.addEventListener('mousedown', function(){
+    log('mousedown')
+})
+
+btn.addEventListener('mouseup', function(){
+    log('mouseup')
+})
+
+heading.addEventListener('mouseenter', function(){
+    heading.classList.add('blue');
+})
+
+heading.addEventListener('mouseleave', function(){
+    heading.classList.remove('blue');
+})
+
+**********
+KEY EVENTS
+**********
+keypress, keyup, keydown
+
+ <label for="fname">Name:</label>
+      <input type="text" id="fname">
+
+const nameInput = document.querySelector('#fname');
+log(fname);
+
+/* nameInput.addEventListener('keypress', function(){
+    log('You pressed the keyboard')
+})
+
+nameInput.addEventListener('keydown', function(){
+    log('You pressed a keydown')
+}) */
+
+nameInput.addEventListener('keyup', function(){
+    log('You pressed the keyup');
+    log(nameInput.value);
+})
+
+keyup permet de récupérer une valeur saisie !
+
+************
+EVENT OBJECT
+************
+  Vocabulaire: 
+  - event.currentTarget, l'élément auquel est attaché  l'écouteur
+  (eventListener).
+  - event.type: click, mouseenter, keypress, keyup...
+
+  <div class="enter">
+     <button class="btn">Click me</button>
+     <h1>some heading</h1>
+     <a href="#" id="link">random link</a>
+  </div>
+
+const heading = document.querySelector('h1');
+const btn = document.querySelector('.btn')
+const link = document.querySelector('#link')
+log(link);
+
+heading.addEventListener('click', function(event){  //Evénement et action
+    log(event.type);                                //Click 
+    log(event.currentTarget);                       //<h1> ../..</h1>
+    heading.classList.add('blue');
+})
+
+btn.addEventListener('click', function(event){
+    event.currentTarget.classList.add('blue');
+    log(btn.classList);
+})
+
+function someFunc(evt){
+    evt.preventDefault();                           //Evite un retour au haut de la page ???
+}
+link.addEventListener('click', someFunc); 
+
+***********************
+CURRENT TARGET - TARGET
+***********************
+ <body>
+    <button class="btn">first button</button>
+    <button class="btn">
+      second <strong> button <strong>more nested</strong></strong>
+    </button>
+    <button class="btn">third button</button>
+  </body>
+
+  let btns = document.querySelectorAll('.btn');
+  log(btns);
+
+btns.forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      log(e.currentTarget);
+ //e.currentTarget.style.color='green';//Element which receenerived the listener
+      e.target.style.color = 'green';  //The targeted fraction of the element
+    })
+})
+
+**************************************
+EVENT PROPAGATION - BUBBLING, CAPTURING
+**************************************
+Select dynamic elements !
+Event propagation: the order in which events are fired.
+Bubbling: clicked elements first then bubbles up - default.
+Capturing: fires at the root and fires until it reaches target. 
+
+<body>
+   <div class="container">
+    <ul class="list-items">
+      <li class="item"><a href="#" class="link">1 link</a></li>
+      <li class="item"><a href="#" class="link">2 link</a></li>
+      <li class="item"><a href="#" class="link">3 link</a></li>
+    </ul>
+   </div>
+</body>
+
+BUBBLING:
+let container = document.querySelector('.container');
+let list = document.querySelector('.list-items');
+
+function showBubbling(e){
+  log('current target', e.currentTarget);
+  log('target', e.target);
+  if(e.target.classList.contains('link')){
+    log('You clicked on the link');
+  }
+}
+
+function stopPropagation(e){
+  log('You clicked on the list')
+  e.stopPropagation();
+}
+
+list.addEventListener('click', stopPropagation);
+
+            //OU
+
+list.addEventListener('click', showBubbling);
+//container.addEventListener('click', showBubbling);
+//document.addEventListener('click', showBubbling);
+//window.addEventListener('click', showBubbling);
+
+CAPTURING:
+
+list.addEventListener('click', showBubbling, {capture:true});
+container.addEventListener('click', showBubbling, {capture:true});
+document.addEventListener('click', showBubbling, {capture:true});
+window.addEventListener('click', showBubbling, {capture:true});
+
+***************************
+EVENT PROPAGATION - EXAMPLE
+***************************
+<div class="container">
+    <h1 class="heading">I am sitting inside container</h1>
+   </div>
+<button class="btn">click me</button>
+
+const container = document.querySelector('.container');
+const heading = document.querySelector('.heading');
+const btn = document.querySelector('.btn');
+log(heading);
+
+const sayHello = function(){
+  log('Hello there !');
+}
+heading.addEventListener('click', sayHello);
+
+//Créer des elmts dynamiquement:
+btn.addEventListener('click', function(){
+  let elmt = document.createElement('h1');
+  elmt.classList.add('heading');
+  elmt.textContent = 'I am siting in the container';
+  container.appendChild(elmt);
+})
+
+*****
+FORMS
+*****
+<form action=" " id="form">
+    <input type="text" id="fname">
+    <input type="password" id="password">
+    <input type="submit" id="submit">
+</form>
+
+const form = document.querySelector('#form');
+const fname = document.querySelector('#fname');
+const password = document.querySelector('#password');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();    //To avoid sending the data and 
+                         //Cleaning the screen ("action")
+  log('Form submitted');
+  log(fname.value);
+  log(password.value);
+})
+
+*************
+LOCAL STORAGE
+*************
+setItem, getItem, removeItem, clear.
+session storage, local storage.
+Aller dans "devtools" (Console, Eléments...Appli) sur "Appli".
+
+Toutes les clés ddoivent être différentes:
+localStorage.setItem('name', 'john');     //Crée un article
+localStorage.setItem('name', 'peter');    //Efface la ligne précédente
+localStorage.getItem('name');             //Retourne 'peter'
+localStorage.removeItem('name');          //Supprime 'peter'
+localStorage.clear();                     //Supprime tout le localStorage
+
+**********************************
+LOCAL STORAGE WITH MULTIPLE VALUES
+**********************************
+JSON.stringify(), JSON.parse();
+Pour stocker des arrays ou des objets, il faut utiliser ces 2 fonctions.
+
+const friends = ['john', 'peter', 'bob']
+localStorage.setItem('friends', JSON.stringify(friends));//Ecrire en localStorage
+
+const values = JSON.parse(localStorage.getItem('friends'));//Lire en localStorage
+log(values);
+
+let fruits;
+
+if(localStorage.getItem('fruits')){
+  fruits = JSON.parse(localStorage.getItem('fruits'));
+}else{
+  fruits = [];
+}
+
+log(fruits);
+fruits.push('apple');
+log(fruits);
+fruits.push('orange');
+localStorage.setItem('fruits', JSON.stringify(fruits));//Ecrire en localStorage
+localStorage.removeItem('fruitss');
+
+**********
+SETTIMEOUT
+**********
+  Syntaxe: setTimeout(reference function, delay);  on window object.
+  Default is 0 for delay 
+  Retourne un identifiant unique(id1)
+
+//-Ex1
+let sayHello = function(fname, score){
+  log(`Hi ${fname} your score is ${score}`)
+}
+
+let delay = 5000;
+setTimeout(sayHello('Toto', 50), delay);            //Hi Toto your score is 50 
+clearTimeout();
+
+let id1 = setTimeout(sayHello('Titi', 80), delay);  //Hi Titi your score is 80
+clearTimeout(id1);
+
+***********
+SETINTERVAL
+***********
+Très semblable à SETTIMEOUT, mais la fonction de référence
+est répéte après chaque chaque période d'une durée "delay".
+
+***************************
+EVENTS - DOM CONTENT LOADED
+***************************
+  The "DOMContentLoaded" event fires when the initial 
+  HTML Document has been loaded & parsed without
+  waiting for CSS, images or subframes to be loaded.
+
+  window.addEventListener('DOMContentLoaded', function(){
+  log('Hi there, HTML was loaded');
+  const heading = document.querySelector('h1');
+  log(heading);
+  heading.style.color = 'red';
+})
+
+*************
+EVENTS - LOAD
+*************
+  The "load" event fires when aii resources have been loaded,
+  including CSS, images and others. This event takes more 
+  time than "DOMContentLoaded" in particular if CSS and images
+  are large files.
+
+  window.addEventListener('load', function(){
+  log('I will load second');
+  const heading = document.querySelector('h1');
+  log(heading);
+  heading.style.color = 'red';
+})
+
+***************
+EVENTS - SCROLL
+***************
+  "scroll" donne la valeur du déplacement sur les 2 axes.
+
+<body>
+     <img src="./pexels-muffin-1653877.jpg" alt="Pizza">   
+</body>
+
+window.addEventListener('scroll', function(){
+  log(this.window.scrollY + ' px');
+  log(this.window.scrollX + ' px');
+})
+
+************************************
+WIDTH, HEIGHT, GETBOUNDINGCLIENTRECT()
+**************************************
+- innerWidth: the read only window property returns  the interior 
+width of the window in pixels.
+- innerHeight: the read only window property returns the interior
+height of the window in pixels.
+- The element.getBoundingCientRect() method returns a DOMRect object provides
+information about the size of an element and its position relative 
+to the viewport. 
+
+-Ex1:
+index.html:
+
+  <style>
+    .btn{
+      margin: 1rem;
+      font-size: 1.5rem;
+    }
+    .box{
+      margin: 1rem;
+      width: -3rem;
+      height: 10rem;
+      background: red;
+    }
+  </style>
+
+ <h1>Javascript</h1>
+ <button class="btn">click me</button>
+ div class="box"></div> 
+
+app.js:
+
+/* log('window innerHeight: ' + window.innerHeight);
+log('window innerWidth: ' + window.innerWidth);
+ */
+const btn = document.querySelector('.btn');
+const box = document.querySelector('.box');
+
+btn.addEventListener('click', function(){
+  const values = box.getBoundingClientRect();
+  log(values);
+})
+
+*************
+EVENTS RESIZE
+*************
+
+The "resize" event fires when the size of the window resizes.
+
+window.addEventListener('resize', function(){
+  log(this.window.innerWidth);
+  log(this.window.innerHeight);
+})
+
+/*========================================= O B J E C T S =================================*/
  
+******
+BASICS
+******
+const person ={
+  fname: 'Paul',
+  lname: 'Martin',
+  age: 70
+}
+
+let ageSupprime = delete person.lname;
+log(ageSupprime);   //true
+
+log(person); 
+
+*********************************
+NESTED OBJECTS - BRACKET NOTATION
+*********************************
+=> Nested object(s):
+const person ={
+  fname: 'Paul',
+  lname: 'Martin',
+  age: 70,
+  job:{
+    title:'developper',
+    salary:2000,
+    company:{
+      raison_sociale:'Google',
+      adresse: 'Californie'
+    }
+  }
+}
+
+log(person.job.company.adresse);  //Californie
+
+=> const age = 40;
+
+const person ={
+  fname: 'Paul',
+  lname: 'Martin',
+  age: age,
+  job:{
+    title:'developper',
+    salary:2000,
+    company:{
+      raison_sociale:'Google',
+      adresse: 'Californie'
+    }
+  }
+}
+
+log(person.age) // 40
+
+=> Square bracket NOTATION
+   const user ={
+    fname: 'Paul',
+    lname: 'Martin',
+  }
+
+// set
+user["likes birds"] = true; log(user);
+
+// get
+alert(user["likes birds"]); // true
+
+// delete
+delete user["likes birds"];  log(user);
+
+****
+THIS
+****
+
+"THIS" is left of the dot and designates the object:
+const john = {
+  fname: 'john',
+  lname: 'anderson',
+  fullName: function (){
+    log(this);         //{fname: 'john', lname: 'anderson', fullName: ƒ}
+    log(`My full name is ${this.fname} ${this.lname}`);
+  },                   //My full name is john anderson
+}
+
+john.fullName();
