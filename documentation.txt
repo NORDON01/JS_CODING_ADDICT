@@ -1642,4 +1642,218 @@ const john = {
   },                   //My full name is john anderson
 }
 
-john.fullName();
+john.fullName();       //The function "fullName()" is called on "john",
+                       //left of the dot, ".".
+
+=> THIS with regular functions (function name () {})
+   
+   Ex1: log(this)   // window in the global scope
+
+   Ex2:  function showThis(){
+            log(this);
+         }
+
+const john ={
+  name:'john',
+  showThis: showThis,
+}
+
+const paul ={
+  name:'paul',
+  showThis: showThis,
+}
+
+john.showThis();  //{name: 'john', showThis: ƒ} left of the dot is john
+paul.showThis();  //{name: 'paul', showThis: ƒ} left of the dot is paul
+
+=> THIS with arrow functions is another topic 
+
+****************
+FACTORY FUNCTION
+****************
+function createPerson(fname, lname){
+  return {
+    fname: fname,
+    lname: lname,
+    fullName:function(){
+      log(`My name is ${fname} ${lname} and I love JS`)
+    }
+  }
+}
+
+const person1 = createPerson('Georges', 'NORDON'); 
+log(person1);
+person1.fullName();
+
+***********
+CONSTRUCTOR
+***********
+function CreatePerson (fName, lName){     //Majuscule
+  this.fName = fName,                     //utilisation de this ..=
+  this.lName = lName,
+  this.fullName = function(){
+      log(`My name is ${fName} ${lName} and I love JS`)
+    }
+};
+
+const georges = new CreatePerson('Georges', 'NORDON');  //new !!!
+log(georges);
+georges.fullName();
+
+*********
+PROTOTYPE
+*********
+  Prototype: une propriété de la fonction CONSTRUCTOR qui permet de 
+  stocker des données qui sont communes à toutes les occurrences
+  attachées au CONSTRUCTOR.
+  Exemple: Account.prototype.bank //La banque est la même pour tous les comptes
+                                  //d'une même banque.
+
+Ex1:
+function CreatePerson (fName, lName){
+    this.fName = fName,
+    this.lName = lName
+  }
+
+const georges = new CreatePerson('Georges', 'NORDON');
+log(georges);
+
+CreatePerson.prototype.bank = 'BNP';            //property in the prototype
+
+CreatePerson.prototype.fullName = function(){   //method in the prototype
+      log(`My name is ${this.fName} ${this.lName}, my bank is ${this.bank}`)
+    }
+
+georges.fullName();
+
+******
+LOOKUP
+******
+   When lookig for a property (or a method), the system looks first in the
+   object. If the property cannot be found there, the system looks into 
+   the prototype. 
+   When creating an object or an array this object / array is not stored 
+   on the object itself but above on the prototype. Beyond the prototype
+   itself we have another level of "proto" with the Constructor.
+
+*********
+ES6 CLASS
+*********
+
+class Account {
+  constructor(fname, accountBalance){
+    this.fname = fname;
+    this.balance = accountBalance;
+  }
+}
+Ex1:
+const georges = new Account('Georges', 1000);
+Account.prototype.bank = "BNP";
+log(georges);   //Account {fname: 'Georges', balance: 1000}
+                          balance: 1000
+                          fname: "Georges"
+                          [[Prototype]]: Object 
+                          bank: "BNP"
+                          constructor: class Account
+                          [[Prototype]]: Object
+Ex2:
+Account.prototype.bank = "Chase";
+Account.prototype.solde = function(){
+  log(`Mon solde est de ${this.balance}`)};
+const georges = new Account('Georges', 1000);
+
+georges.solde();      //Mon solde est de 1000
+
+log(georges);         //Account {fname: 'Georges', balance: 1000}
+                      /* [[Prototype]]: Object
+                         bank: "Chase"
+                         solde: ƒ () */
+
+*****************
+CALL, APPLY, BIND
+*****************
+=> CALL:
+Ex1:
+  const john = {
+  fname : 'john',
+  age : 24,
+  greet: function(){
+    log(this);
+    log(`My name is ${this.fname} and I am ${this.age} years old`)
+  }
+}
+
+const susan = {
+  fname: 'susan',
+  age:21,
+}
+john.greet();             //{fname: 'john', age: 24, greet: ƒ}
+                          //My name is john and I am 24 years old
+
+john.greet.call(susan);   //{fname: 'susan', age: 21}
+                          //My name is susan and I am 21 years old
+et aussi john.greet.call(john);
+
+Ex2:
+const susan = {
+  fname: 'susan',
+  age:21,
+}
+
+function greet(){
+    log(this);
+    log(`My name is ${this.fname} and I am ${this.age} years old`)
+}
+
+greet.call(susan);       //{fname: 'susan', age: 21}
+                         //My name is susan and I am 21 years old
+
+=> APPLY
+Ex1:
+const john = {
+  fname : 'john',
+  age : 24,
+  greet: function(city, country){
+    log(this);
+    log(`My name is ${this.fname} and I am ${this.age} years old and I 
+      live in ${city} ${country}`)
+  }
+}
+
+john.greet.apply(john, ['San diego', 'USA']);
+john.greet.apply({fname:'Peter', age:30}, ['San diego', 'USA']);
+
+=> BIND
+  With the bind() method, an object can borrow a method from another object.
+Ex1:
+const person = {
+  firstName:"John",
+  lastName: "Doe",
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+
+const member = {
+  firstName:"Hege",
+  lastName: "Nilsen",
+}
+  //Assign, call it later:
+let fullName = person.fullName.bind(member);
+document.getElementById("demo").innerHTML = fullName();
+
+Ex2:
+const btn = document.querySelector('.increment'); log(btn);
+ 
+const counter = {
+  count:0,
+  increment(){
+    log(this);
+    this.count++
+    log(this.count);
+  }
+}
+
+let compteur = counter.increment.bind(counter);//!!!
+
+btn.addEventListener('click', compteur);

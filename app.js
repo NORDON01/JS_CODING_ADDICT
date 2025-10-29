@@ -1,20 +1,16 @@
 const log = console.log;    //global scope
 
-const john = {
-  fname: 'john',
-  lname: 'anderson',
-  fullName: function (){
+const btn = document.querySelector('.increment'); log(btn);
+ 
+const counter = {
+  count:0,
+  increment(){
     log(this);
-    log(`My full name is ${this.fname} ${this.lname}`);
-  },
+    this.count++
+    log(this.count);
+  }
 }
 
-john.fullName();
+let compteur = counter.increment.bind(counter);//!!!
 
-const bob = {
-  fname: 'bob',
-  lname: 'sanders',
-  fullName: function (){
-    log(`My full name is Bob Sanders`);
-  },
-}
+btn.addEventListener('click', compteur);
