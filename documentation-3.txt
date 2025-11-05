@@ -1115,7 +1115,7 @@ random.style.textAlign = 'center'; */
 //Plus rapide:
 random.classList.add('title');
 
-/*************************** E V E N T S ***************************/
+/*********************************************** E V E N T S ***********************************************/
 
 ***********
 CLICK EVENT 
@@ -1857,3 +1857,20 @@ const counter = {
 let compteur = counter.increment.bind(counter);//!!!
 
 btn.addEventListener('click', compteur);
+
+/****************************************** F U N C T I O N S ******************************************/
+
+****
+IIFE
+****
+Immediately Invoked Function Expression. Les IIFE empêchent la pollution de la portée globale de JavaScript.
+
+********
+HOISTING
+********
+Avoid using variables before they have been declared !
+
+*******
+CLOSURE
+*******
+
