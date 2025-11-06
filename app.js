@@ -1,8 +1,15 @@
 const log = console.log;    //global scope
 
-const fname = 'Bob';
-const lname = 'Sanders';
-const age = 25;
+const person = {
+    name: 'Kyle',
+    job: 'developer',
+    hobbies: ['surfing', 'baking', 'bowling']
+}
 
-let phrase = `My ${fname} is ${lname.toUpperCase()} and I am ${age*2} years old`;
-log(phrase);
+const result = document.getElementById('result'); log(result);
+result.innerHTML = `
+<h2>${person.name}</h2>
+<p>${person.job}</p>
+<ul>${person.hobbies.map(
+    item => {return `<li>${item}</li>`}
+).join("")}</ul>`
