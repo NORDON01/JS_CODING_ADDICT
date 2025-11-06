@@ -1911,3 +1911,39 @@ alice.showBalance();
 alice.withDraw(500);
 alice.showBalance();
 alice.withDraw(5000);
+
+*************
+VAR LET CONST
+*************
+Primitive values:
+  - With var: I can reassign (from number to String for example) and I can change the value
+  - With let: I cannot reasign but I can change the value
+  - With const: I can neither reassign nor change the value.
+
+Objects: properties can be changed.
+
+****************************
+FUNCTION SCOPE & BLOCK SCOPE
+****************************
+
+//Global scope
+let amount = 100;
+
+//Local scope
+function greet(){
+  let random = 'Some random value'
+}
+
+*****************
+TEMPLATE LITERALS
+*****************
+const fname = 'Bob';
+const lname = 'Sanders';
+const age = 25;
+
+let phrase = `My ${fname} is ${lname.toUpperCase()} and I am ${age*2} years old`;
+log(phrase);        //My Bob is SANDERS and I am 50 years old
+
+
+
+
