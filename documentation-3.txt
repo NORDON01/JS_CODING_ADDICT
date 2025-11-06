@@ -1947,7 +1947,6 @@ log(phrase);        //My Bob is SANDERS and I am 50 years old
 ***********************
 TEMPLATE STRINGS - HTML
 ***********************
-
 const person = {
     name: 'Kyle',
     job: 'developer',
