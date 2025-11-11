@@ -1629,10 +1629,10 @@ alert(user["likes birds"]); // true
 delete user["likes birds"];  log(user);
 
 ****
-THIS
+THIS (With regular function)
 ****
 
-"THIS" is left of the dot and designates the object:
+=> "THIS" is left of the dot and designates the object:
 const john = {
   fname: 'john',
   lname: 'anderson',
@@ -1665,6 +1665,26 @@ const paul ={
 
 john.showThis();  //{name: 'john', showThis: ƒ} left of the dot is john
 paul.showThis();  //{name: 'paul', showThis: ƒ} left of the dot is paul
+
+=> //Ex-1:
+var age = 28;                //Created in the Window object - global scope
+                                                            //++++++++++++
+function displayAge(){      //Function created in the Window object
+    log(this.age);          //28
+    log(this);              //Window {window: Window, self: Window, 
+                            // document: document, name: '', location: Location, …}
+}
+
+window.displayAge();       //Is a method of the Window object - "this" refers to window -
+                           //The same as "displayAge()"
+
+//Ex-2:
+var person = {
+    age:26,
+    displayAge: displayAge
+}
+
+person.displayAge()         //26 - "this" in the displayAge()method refers to "person"
 
 => THIS with arrow functions is another topic 
 
@@ -1768,6 +1788,23 @@ log(georges);         //Account {fname: 'Georges', balance: 1000}
                       /* [[Prototype]]: Object
                          bank: "Chase"
                          solde: ƒ () */
+
+Benefits of using Factory Functions over Classes in javascript
+
+    There is no use of this keyword when instantiating variables. It is only used inside methods. This reduces the confusion of the this keyword.
+    There is no use of the new keyword which is often forgotten when creating objects using classes.
+    It is easier to setup since it looks quite similar to regular functions.
+
+    Simplicity - Factory functions provide a more straightforward and flexible way to create objects. They don't have the syntactic complexities that come with class declarations and prototypes, making them more approachable for developers who prefer a simpler syntax.
+
+    Encapsulation with Closures: It is easy to encapsulate private variables and objects with Factory functions since is natural to them.This enhances data privacy and abstraction.
+
+Benefits of using Classes over Factory functions in Javascript
+
+    Classes save memory so they are suitable when creating large applications that require creation of thousands of objects.
+    Classes are used in many programming languages hence it is a cleaner way to follow object oriented programming paradigm.
+    Inheritance: Classes support the concept of inheritance, making it easier to create a hierarchy of objects. You can use the extends keyword to create a subclass that inherits from a superclass. ```Javascript
+
 
 *****************
 CALL, APPLY, BIND
@@ -1986,3 +2023,130 @@ function highlight(text, ...vars){      //rest operator
     return awesomeText.join("");
 }
 
+***************
+ARROW FUNCTIONS
+***************
+  If arrow function is a 'one liner' both return and curly braces can be omitted.
+  An arrow function is always a function expression (!= regular function).
+
+Ex1:
+const sayHi = () => log('Hi !');
+sayHi();
+
+Ex2:
+const multiply = (num1, num2) => num1 * num2;
+log(multiply(3,2));     //6
+
+Ex3:
+const arr = [1, 2, 3, 4, 5, 6];
+const big = arr.filter((elmt => elmt > 2));
+log(big); 
+
+**********************************
+ARROW FUNCTIONS - OBJECTS AND THIS 
+**********************************
+In JavaScript, the this keyword refers to an object.
+
+The this keyword refers to different objects depending on how it is used:
+Alone, this refers to the global object.
+In a function, this refers to the global object.
+In a function, in strict mode, this is undefined.
+In an object method, this refers to the object.
+In an event, this refers to the element that received the event.
+Methods like call(), apply(), and bind() can refer this to any object.
+
+***********************************
+STANDARD FUNCTION VS ARROW FUNCTION
+*********************************** 
+  With regular function the call is on the parent function, left of the dot.
+  With arrow function the call is on the surrounding context (global / local).
+  (With regular functions, the value of "this" depends on  
+  where the function is being called from):
+  class Person {
+    constructor(name){
+        this.name = name
+    }
+    
+    printNameArrow() {
+        log(this);
+        setTimeout(() => {
+            log("Arrow: " + this.name)
+        }, 100)
+    }
+    
+    printNameFunction(){
+        log(this);
+        setTimeout(function(){
+            log("Function: " + this.name)
+        },100)
+    }
+}
+
+let person = new Person("Bob"); 
+
+log(this);
+person.printNameArrow();
+person.printNameFunction(); //Called in global scope, doesn't work
+
+********************************************
+ ARROW FUNCTIONS - SELECT ELEMENT AND "THIS" 
+********************************************
+  Don't use the arrow function systematicely, but depending on the
+problem.
+  Use log(this) to check where this is pointing at.
+
+******************
+DEFAULT PARAMETERS
+******************
+//'Suzan' est la valeur par défaut
+const sayHi = function(name = 'Suzan'){
+                       ++++++++++++++
+    log(`Hi ${name}`)
+} 
+
+sayHi();          //Hi Suzan
+sayHi('Peter');   //Hi Peter 
+
+*******************
+ARRAY DESTRUCTURING
+*******************
+function getFriends(){
+    return ['John', 'Bob', 'Peter', 'Anna', 'Kelly'];
+}
+
+let [a, b, c, d, e] = getFriends();
+log(a, b, c, d, e);
+log(b);             //Bob
+log(e)              //Kelly
+
+**************
+SWAP VARIABLES
+**************
+let first = 'bob';
+let second = 'john'; 
+log(first, second);     //bob john
+
+[second, first] = [first, second];
+
+log(first, second);     //john bob
+
+********************
+OBJECT DESTRUCTERING
+********************
+const bob = {
+    fname:'Bob',
+    lname:'Sanders',
+    city:'Chicago',
+    siblings:{
+        sister:'jane',
+    },
+}
+
+const {
+    fname: prénom,
+    lname,
+    city,
+    siblings:{sister:soeur}
+} = bob;
+
+log(prénom, lname, city, soeur);  //Bob Sanders Chicago jane   

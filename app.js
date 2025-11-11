@@ -1,19 +1,24 @@
 const log = console.log;    //global scope
 
-const author = "Some author";
-const statement = "Some statement";
-
-const quote = highlight `Here is the statement ${statement} by ${author} and it could not be more true`;
-log(quote);
-
-const result = document.getElementById('result'); log(result);
-result.innerHTML = quote;
-
-function highlight(text, ...vars){      //rest operator
-    log({text, vars});
-    const awesomeText = text.map((item, index) => {
-        return `${item} <strong class="blue"> ${vars[index] || ""} </strong>`
-    })
-
-    return awesomeText.join("");
+//Regular function
+const bob = {
+ fname:"Bob",
+ lname: "Smith", 
+ sayName:function(){
+    log(this);
+    log(`Hello my name is ${this.fname} ${this.lname}`);
+ }
 }
+
+//Arrow function
+const anna = {
+ fname:"Anna",
+ lname: "Sanders", 
+ sayName:() => {
+    log(this);              //Points to Windows
+    log(`Hello my name is ${this.fname} ${this.lname}`);
+ }
+}
+
+bob.sayName();
+anna.sayName();
