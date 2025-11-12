@@ -1,19 +1,11 @@
 const log = console.log;
 
-const bob = {
-    fname:'Bob',
-    lname:'Sanders',
-    city:'Chicago',
-    siblings:{
-        sister:'jane',
-    },
-}
+const headings = document.querySelectorAll('h1'); 
+log(headings);  //Displays a node list which cannot take map() method
+const result = document.getElementById('result');
 
-const {
-    fname: prénom,
-    lname,
-    city,
-    siblings:{sister:soeur}
-} = bob;
+const text = [...headings]
+.map(item => `<span>${item.textContent}</span>`)
+.join(" ");
 
-log(prénom, lname, city, soeur);
+result.innerHTML = text;

@@ -2150,3 +2150,124 @@ const {
 } = bob;
 
 log(prénom, lname, city, soeur);  //Bob Sanders Chicago jane   
+
+*********************************
+DESTRUCTERING FUNCTION PARAMETERS
+*********************************
+const bob = {
+    fname:'Bob',
+    lname:'Sanders',
+    city:'Chicago',
+    siblings:{
+        sister:'jane',
+    },
+}
+
+function printPerson({fname, lname, city}){
+    log(fname, lname, city);
+}
+printPerson(bob);onst bob = {
+    fname:'Bob',
+    lname:'Sanders',
+    city:'Chicago',
+    siblings:{
+        sister:'jane',
+    },
+}
+
+function printPerson({fname, lname, city}){
+    log(fname, lname, city);
+}
+printPerson(bob);
+
+******************
+NEW STRING METHODS
+******************
+startsWith(), endsWith(), includes(), repeat();
+
+person = 'Peter Smith'
+employee = '23456-EMP-PETER-SMITH';
+manager = '23456-MAN-JOHN-DOE';
+
+log(person.startsWith('Peter'));    //true
+log(employee.endsWith('Smith'));    //false
+log(manager.includes('MAN', 6));    //true à partir de la position 6
+
+const mutiplyPeople = (person, amount=5) => person.repeat(amount);
+const people = mutiplyPeople(person);
+log(people); //Peter SmithPeter SmithPeter SmithPeter SmithPeter Smith
+
+*************
+FOR...OF LOOP
+*************
+ Possibility of using break and/or continue which is not possible with forEach.
+const fruits = ["Apple", "Orange", "Banana", "Peach"];
+const longName = 'John Smith Pepper III';
+let shortName = "";
+
+for(const letter of longName){
++++              ++    
+    if(letter===" ") continue;
+    else shortName += letter
+}
+
+log(shortName);         //JohnSmithPepperIII
+
+for(const fruit of fruits){
++++             ++
+    if(fruit === "Banana")
+        break;
+    //continue
+    log(fruit);         //Apple Orange
+}
+
+***************
+SPREAD OPERATOR
+***************
+  Allows an iterable to expand/spread individualy inside a receiver.
+  Produces a copy of the original not a reference, avoids altering 
+  the original.  
+  const udemy = 'udemy';
+const letters = [...udemy]; log(letters);
+
+const boys =['john', 'bob', 'jim'];
+const girls= ['anna', 'suzan'];
+const bestFriend = 'arnold';
+
+// 1- Les [] permettent de linéariser les contenus
+const friends = [...boys, bestFriend, ...girls];
+log(friends);
+
+// 2- Les [] permettent de créer une copie 
+const newFriends = [...friends];
+newFriends[0] = 'TOTO';
+log(friends);
+log(newFriends);
+
+*************************
+SPREAD OPERATOR - OBJECTS
+*************************
+ES8
+const person = {fname:'john', job:'developer'}
+const newPerson1 = {...person}; log(newPerson1);
+//Ajoutd'une propriété
+const newPerson2 = {...person, city:'Chicago'}; log(newPerson2);
+//MAJ du fname
+const newPerson3 = {...person, fname: 'peter'}; log(newPerson3); 
+
+*************************
+SPREAD OPERATOR - OBJECTS
+*************************
+const headings = document.querySelectorAll('h1'); 
+log(headings);  //Displays a node list which cannot take map() method
+const result = document.getElementById('result');
+
+const text = [...headings]
+.map(item => `<span>${item.textContent}</span>`)
+.join(" ");
+
+result.innerHTML = text;
+
+************************************
+SPREAD OPERATOR - FUNCTION ARGUMENTS
+************************************
