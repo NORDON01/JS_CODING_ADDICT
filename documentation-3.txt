@@ -2255,9 +2255,9 @@ const newPerson2 = {...person, city:'Chicago'}; log(newPerson2);
 //MAJ du fname
 const newPerson3 = {...person, fname: 'peter'}; log(newPerson3); 
 
-*************************
-SPREAD OPERATOR - OBJECTS
-*************************
+*******************************
+SPREAD OPERATORS - DOM ELEMENTS
+*******************************
 const headings = document.querySelectorAll('h1'); 
 log(headings);  //Displays a node list which cannot take map() method
 const result = document.getElementById('result');
@@ -2271,3 +2271,272 @@ result.innerHTML = text;
 ************************************
 SPREAD OPERATOR - FUNCTION ARGUMENTS
 ************************************
+const numbers = [23,45,46, 2385,58];
+const max = Math.max(...numbers); log(max); //2385
+
+const john = ['john', 'sanders'];
+
+const sayHello = function(fname, lname){
+    log(`Hello ${fname} ${lname}`);
+}
+
+sayHello(...john);                          //Hello john sanders
+
+*************
+REST OPERATOR
+*************
+
+//arrays
+const fruits = ['pear', 'apple','orange', 'banana', 'lemon'];
+[first, second, ...rest1] = fruits; log(first, second, rest1);
+
+//objects
+const person ={fname:'john', lname:'smith', job:'developer'};
+const {job, ...rest2} = person;
+log(job, rest2);
+
+const getAverage = function (nom, ...rest3){
+    let total = 0;
+    log(nom);
+    log(rest3);
+    for(item of rest3){
+        total += item;
+    }
+    total = total/rest3.length;
+    return (`${nom}'s average is ${total}`)
+}
+
+log(getAverage('John', 10, 20, 15, 9, 20));
+
+********
+ARRAY.OF
+********
+  Array.of() n'est pas attaché au prototype
+const donnees = Array.of('John', 2, true, [1,2,3], {fname: 'paul', lname:'martin'});
+log(donnees);
+//(5) ['John', 2, true, Array(3), {…}]
+// 0: "John"
+// 1: 2
+// 2: true
+// 3: (3) [1, 2, 3]
+// 4: {fname: 'paul', lname: 'martin'}
+// length: 5
+
+*************************************
+ARRAY FROM STRING & ARGUMENTS OBJECT
+*************************************
+   Transforms "arrayish" expression into an array.
+
+Ex1:
+const udemy = "udemy";
+log(Array.from(udemy));     //['u', 'd', 'e', 'm', 'y']
+
+Ex2:
+function countTotal (){
+    let total = Array.from(arguments).reduce((total, currNum) => 
+        (total += currNum),0);
+    log(total);
+} 
+
+countTotal(67, 89, 54, 100);  //310
+
+*************************
+ARRAY FROM DOM - NODELIST
+*************************
+html:
+ <body>
+    <p>ES6</p>
+    <p>JOHN</p>
+    <p>PETER</p>
+    <p>SUSAN</p>
+    <h2 id="result"></h2>
+    <h1 id="second"></h1>
+  </body>
+
+app.js:
+const p = document.querySelectorAll('p'); log(p);
+const result = document.getElementById('result'); log(result);
+const second = document.getElementById('second'); log(second);
+
+
+let newText = Array.from(p);
+newText = newText.map(item => `${item.textContent}`).join(" ");
+log(newText);
+result.innerHTML=`<span>${newText}</span>`;
+
+****************************
+FIND, FINDINDEX, EVERY, SOME
+****************************
+const people = [
+    {id:1, fname:'John'},
+    {id:2, fname:'Peter'},
+    {id:3, fname:'Anna'},
+];
+
+const grades = ['A', 'B', 'A', 'B', 'C'];
+const goodGrades = ['A', 'B', 'A', 'B'];
+
+//find et non filter qui retourne un array:
+const anna = people.find(item => item.fname === 'Anna');
+log(anna);      //{id: 3, fname: 'Anna'}
+
+//findIndex:
+const annaInd = people.findIndex(item => item.id === 3);
+log(annaInd);                               //2
+const newPeople = people.slice(0, annaInd); //de 0 à 2 exclus
+log(newPeople);                             //0: {id: 1, fname: 'John'}
+                                            //1: {id: 2, fname: 'Peter'}
+
+//every:
+const allGoodGrades = goodGrades.every(item => item !== 'C');
+log(allGoodGrades);                                 //true
+
+//some:
+const abadGrade = grades.some(item => item === 'D') 
+log(abadGrade)                                      //false   
+
+*************
+FOR...IN LOOP
+*************
+  This is user for iterating on objects not arrays (use for...of for arrays).
+
+const person = {
+    fname:'John',
+    age:25,
+    status: 'student'
+}
+
+for(const property in person){
+    log(`${property}: ${person[property]}`) //!!!
+}
+
+
+  fname: John
+  age: 25
+  status: student
+
+***********
+OBJECT.KEYS
+***********
+3 Methods which convert objects to arrays:  
+            Object.keys() =>  array of properties
+            Object.values() =>  array of values
+            Object.entries() => array of properties & values
+
+const person = {
+    fname:'John',
+    age:25,
+    status: 'student'
+}
+
+const keys = Object.keys(person); log(keys);    // ['fname', 'age', 'status']
+const values = Object.values(person); log(values);
+const result = Object.entries(person); log(result);
+
+//map:
+const newResult = result.map((item) => {
+   const [first, second] = item;
+   log(first, second);
+   return(second);
+})
+log(newResult);            
+
+******************
+NEW SET - OVERVIEW
+******************
+Set object: stores a collection of unique values of any type.
+Méthodes:
+  - new Set()
+  - add(value)
+  - delete(value)
+  - clear()
+  - has(value)
+
+Ex1:
+const unique = new Set();
+const random = 'third';
+    
+
+unique.add('first');
+unique.add('second');
+unique.add(random);
+unique.add('first');
+unique.add(4);
+
+log(unique);
+
+let result = unique.delete('first');
+log(unique);
+log(result);
+result = unique.has(4);
+log(result);
+
+******************
+NEW SET - USE CASE
+******************
+Ex1:
+const products = [
+    {
+        title:'high-back bench',
+        company: 'ikea'
+    },
+
+    {
+        title:'albany table',
+        company: 'marcos'
+    },
+    
+    {
+        title:'accent chair',
+        company: 'caressa'
+    },
+
+    {
+        title:'wooden table',
+        company: 'ikea'
+    }
+]
+
+//Un array:
+const companies = products.map(product => product.company);
+log(companies);
+
+//Un set
+const newCompanies = new Set(companies);
+log(newCompanies);
+
+//Un array:
+const finalCompanies = [...newCompanies];
+log(finalCompanies);
+
+***************
+STRING INCLUDES
+***************
+Ex1:
+const fname = 'john';
+let result = fname.includes('jo');
+log(result);                            //true
+
+result = fname.includes('jo',1);        //en postion 1 => false
+log(result);
+
+Ex2:
+const products = [
+    {title:'Modern poster'},
+    {title:'Bar stool'},
+    {title:'Armchair'},
+    {title:'Leather chair'}
+];log(products);
+
+const text = 'a';
+
+const result = products.filter((item) => 
+    item.title.toLowerCase().includes(text)); //Ne pas utiliser {} après =>
+log(result);            //0: {title: 'Bar stool'}
+                        //1: {title: 'Armchair'}
+                        //2: {title: 'Leather chair'}
+
+**************
+ARRAY INCLUDES
+**************
+                        
