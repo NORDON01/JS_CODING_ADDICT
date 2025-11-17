@@ -1,17 +1,16 @@
 const log = console.log;
 
-const products = [
-    {title:'Modern poster'},
-    {title:'Bar stool'},
-    {title:'Armchair'},
-    {title:'Leather chair'}
-];log(products);
+const groceries = [ 'jam', 'milk', 'butter', 'flour'];
+const grocery = 'jam';
 
-const text = 'a';
+let isIncluded = false;
 
-const result = products.filter((item) => 
-    item.title.toLowerCase().includes(text)); //Ne pas utiliser {} après =>
-log(result);            //0: {title: 'Bar stool'}
-                        //1: {title: 'Armchair'}
-                        //2: {title: 'Leather chair'}
+isIncluded = groceries.includes(grocery);
+log(isIncluded);            //true
 
+isIncluded = groceries.includes(grocery, 1);
+log(isIncluded);            //false: starting at position 1
+
+if(groceries.includes(grocery)){
+    log(`Yes ${grocery} is on the list !`)
+}
